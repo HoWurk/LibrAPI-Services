@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://snuffleupagus.db.elephantsql.com:5432/vzlgdtaw?createDatabaseIfNotExist=true&useSSL=true
+    username: vzlgdtaw
+    password: 3TnK67frP360Xq6z1BrVmWZX076AyS5u
+    platform: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database: postgresql
+

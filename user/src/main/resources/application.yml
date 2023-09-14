@@ -1,0 +1,15 @@
+server:
+  port: 8083
+
+spring:
+    profiles:
+        active: dev
+    jpa:
+        show-sql: true
+        database: postgresql
+        hibernate:
+            ddl-auto: create
+#    flyway:
+#        baseline-on-migrate: false
+#        enabled: true
+#        locations: classpath:/db/migration

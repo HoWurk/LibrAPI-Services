@@ -1,0 +1,242 @@
+openapi: 3.0.1
+info:
+  title: LibrAPI
+  termsOfService: http://swagger.io/terms/
+  description: 📚 API Library management system made with SpringBoot. 💳 Phoebus @paystore
+    training project in partnership with @ayty-org
+  contact:
+    email: pedro.sousa@phoebus.com.br
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+tags:
+  - name: purchase-controller
+    description: Everything about all purchases made
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://librapi.herokuapp.com
+  - url: https://localhost:8080
+  - url: http://localhost:8080/v2/docs
+paths:
+  /v1/api/purchases/{id}:
+    get:
+      tags:
+        - purchase-controller
+      operationId: findById
+      summary: Get an existing purchase by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseDTO'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found. Id must be higher than 0 or specified user ID doesn't exist
+    put:
+      tags:
+        - purchase-controller
+      operationId: update_1
+      summary: Update an existing purchase
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseDTO'
+        required: true
+      responses:
+        201:
+          description: Created
+        404:
+          description: Not Found. Id must be higher than 0 or specified user ID doesn't exist
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+    delete:
+      tags:
+        - purchase-controller
+      operationId: delete_1
+      summary: Delete an existing purchase
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: No Content
+        201:
+          description: Created
+        404:
+          description: Not Found. Id must be higher than 0 or specified user ID doesn't exist
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+  /v1/api/purchases:
+    post:
+      tags:
+        - purchase-controller
+      operationId: save_1
+      summary: Creates a new purchase
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseDTO'
+        required: true
+      responses:
+        201:
+          description: Created
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+  /v1/api/purchases/status/{status}:
+    get:
+      tags:
+        - purchase-controller
+      operationId: findByStatus
+      summary: Gets all purchases by its STATUS
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - COMPLETED
+              - FINISHED
+              - CLOSED
+              - PENDING
+              - DELIVERED
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseDTO'
+        201:
+          description: Created
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+  /v1/api/purchases/all:
+    get:
+      tags:
+        - purchase-controller
+      operationId: findAll_1
+      summary: Gets all purchases without pagination
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseDTO'
+        201:
+          description: Created
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+  /v1/api/purchases/:
+    get:
+      tags:
+        - purchase-controller
+      operationId: listPurchases
+      summary: Gets all purchases with pagination
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pageable'
+        201:
+          description: Created
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+components:
+  schemas:
+    PurchaseDTO:
+      required:
+        - amountToPay
+        - purchasedBooks
+        - status
+        - user
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/UserDTO'
+        purchasedBooks:
+          maxItems: 2147483647
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BookDTO'
+        amountToPay:
+          minimum: 0
+          type: number
+          format: double
+        status:
+          type: string
+          enum:
+            - COMPLETED
+            - FINISHED
+            - CLOSED
+            - PENDING
+            - DELIVERED
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
