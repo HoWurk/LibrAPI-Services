@@ -1,12 +1,6 @@
 package com.ghostdovahkiin.purchase.purchase;
 
-import com.ghostdovahkiin.book_category.book.Book;
-import com.ghostdovahkiin.user.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.Min;
@@ -30,11 +24,11 @@ public class PurchaseDTO implements Serializable {
     private long id;
 
     @NotNull(message = "User cannot be null")
-    private User user;
+    private long userId;
 
     @NotNull(message = "Purchased Books cannot be null")
     @Size(min = 1, message = "Purchased book must have at least one book")
-    private Set<Book> purchasedBooks;
+    private Set<Long> bookIds;
 
     @NotNull(message = "Amount cannot be null")
     @Min(value = 0, message = "The minimum value is 0.00")
@@ -47,8 +41,8 @@ public class PurchaseDTO implements Serializable {
         return PurchaseDTO
                 .builder()
                 .id(entity.getId())
-                .user(entity.getUser())
-                .purchasedBooks(entity.getPurchasedBooks())
+                .userId(entity.getUserId())
+                .bookIds(entity.getBookIds())
                 .amountToPay(entity.getAmountToPay())
                 .status(entity.getStatus())
                 .build();

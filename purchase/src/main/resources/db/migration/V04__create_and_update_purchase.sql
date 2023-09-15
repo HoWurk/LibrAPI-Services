@@ -1,7 +1,7 @@
 CREATE TABLE purchase (
     id int8 NOT NULL,
     user_id int8 NOT NULL,
-    purchased_books int8 NOT NULL,
+    book_ids int8[] NOT NULL,
     amount_to_pay float8 NOT NULL,
     status VARCHAR(10) NOT NULL,
     CONSTRAINT purchase_id PRIMARY KEY (id)

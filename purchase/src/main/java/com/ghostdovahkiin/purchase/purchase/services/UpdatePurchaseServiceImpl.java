@@ -16,8 +16,8 @@ public class UpdatePurchaseServiceImpl implements UpdatePurchaseService{
     public void update(PurchaseDTO purchase, Long id) {
         Purchase purchaseFound = purchaseRepository.findById(id).orElseThrow(PurchaseNotFoundException::new);
 
-        purchaseFound.setUser(purchase.getUser());
-        purchaseFound.setPurchasedBooks(purchase.getPurchasedBooks());
+        purchaseFound.setUserId(purchase.getUserId());
+        purchaseFound.setBookIds(purchase.getBookIds());
         purchaseFound.setAmountToPay(purchase.getAmountToPay());
         purchaseFound.setStatus(purchase.getStatus());
 

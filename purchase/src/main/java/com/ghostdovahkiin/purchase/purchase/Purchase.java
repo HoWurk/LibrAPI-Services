@@ -1,7 +1,5 @@
 package com.ghostdovahkiin.purchase.purchase;
 
-import com.ghostdovahkiin.book_category.book.Book;
-import com.ghostdovahkiin.user.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,13 +23,12 @@ public class Purchase implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private long userId;
 
-    @ManyToMany(cascade = CascadeType.DETACH)
-    @PrimaryKeyJoinColumn(name = "book_id")
-    private Set<Book> purchasedBooks;
+    @ElementCollection
+    @CollectionTable(name = "book_ids")
+    private Set<Long> bookIds;
 
     @Column(name = "amount_to_pay")
     private double amountToPay;
@@ -43,8 +40,8 @@ public class Purchase implements Serializable {
     public static Purchase to(PurchaseDTO dto) {
         return Purchase
                 .builder()
-                .user(dto.getUser())
-                .purchasedBooks(dto.getPurchasedBooks())
+                .userId(dto.getUserId())
+                .bookIds(dto.getBookIds())
                 .amountToPay(dto.getAmountToPay())
                 .status(dto.getStatus())
                 .build();
