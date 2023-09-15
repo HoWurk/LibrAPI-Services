@@ -22,6 +22,7 @@
 		<module>user</module>
 		<module>book-category</module>
 		<module>purchase</module>
+		<module>gateway</module>
 	</modules>
 
 	<dependencies>
