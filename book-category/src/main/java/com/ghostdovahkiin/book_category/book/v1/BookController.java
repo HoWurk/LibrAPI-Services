@@ -2,26 +2,14 @@ package com.ghostdovahkiin.book_category.book.v1;
 
 import com.ghostdovahkiin.book_category.book.Book;
 import com.ghostdovahkiin.book_category.book.BookDTO;
-import com.ghostdovahkiin.book_category.book.services.DeleteBookService;
-import com.ghostdovahkiin.book_category.book.services.GetBookService;
-import com.ghostdovahkiin.book_category.book.services.ListBookByCategoryNameService;
-import com.ghostdovahkiin.book_category.book.services.ListBookService;
-import com.ghostdovahkiin.book_category.book.services.SaveBookService;
-import com.ghostdovahkiin.book_category.book.services.UpdateBookService;
+import com.ghostdovahkiin.book_category.book.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,6 +21,7 @@ public class BookController {
     private final ListBookByCategoryNameService listBookByCategoryNameService;
     private final UpdateBookService updateBookService;
     private final DeleteBookService deleteBookService;
+    private final ValidateBooksService validateBooksService;
 
     @GetMapping(path = "/all")
     @ResponseStatus(HttpStatus.OK)
@@ -42,7 +31,7 @@ public class BookController {
 
     @GetMapping(path = "/category/{categoryName}")
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDTO> findBookByCategoriesName(@PathVariable String categoryName){
+    public List<BookDTO> findBookByCategoriesName(@PathVariable String categoryName) {
         return BookDTO.fromAll(listBookByCategoryNameService.findBookByCategoriesName(categoryName));
     }
 
@@ -54,8 +43,14 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@Valid @RequestBody BookDTO bookDTO){
+    public void save(@Valid @RequestBody BookDTO bookDTO) {
         saveBookService.save(Book.to(bookDTO));
+    }
+
+    @PostMapping(path = "/exist")
+    @ResponseStatus(HttpStatus.OK)
+    public Boolean allExist(@Valid @RequestBody Set<Long> bookIds) {
+        return validateBooksService.existAll(bookIds);
     }
 
     @PutMapping(path = "/{id}")

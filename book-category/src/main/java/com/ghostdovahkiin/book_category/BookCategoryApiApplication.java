@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserCategoryApiApplication {
+public class BookCategoryApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UserCategoryApiApplication.class, args);
+		SpringApplication.run(BookCategoryApiApplication.class, args);
 	}
 
 }

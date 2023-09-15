@@ -1,9 +1,9 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://tuffi.db.elephantsql.com:5432/ingxrmba?createDatabaseIfNotExist=true&useSSL=true
-    username: ingxrmba
-    password: WaajqQ5jC26nauHP1bC_D4lOdOfZgany
+    url: jdbc:postgresql://snuffleupagus.db.elephantsql.com:5432/wvpfaqvh?createDatabaseIfNotExist=true&useSSL=true
+    username: wvpfaqvh
+    password: X6fd530rtO-FwB1pY52v5rvJaHnjx2Or
     platform: postgres
   jpa:
     hibernate:
