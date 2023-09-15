@@ -349,6 +349,33 @@ paths:
           description: Unauthorized
         403:
           description: Forbidden
+  /v1/api/books/exist:
+    post:
+      tags:
+        - book-controller
+      operationId: allExist
+      summary: Check if all books with given IDs exist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+        400:
+          description: Bad Request. The request body is invalid.
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
 components:
   schemas:
     CategoryDTO:
